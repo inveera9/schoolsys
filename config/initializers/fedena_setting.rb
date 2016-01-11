@@ -1,5 +1,5 @@
 FEDENA_DEFAULTS = {
-  :company_name => 'Inveera Technologies Pvt. Ltd',
+  :company_name => 'Inveera Technologies Pvt. Ltd.',
   :company_url  => 'http://www.inveera.com/'
 }
 
