@@ -20,8 +20,8 @@ class SchoolDetail < ActiveRecord::Base
   :styles => { :original=> "150x110#"},
   :url => "/system/:class/:attachment/:id_partition/:style/:basename.:extension",
   :path => ":rails_root/public/system/:class/:attachment/:id_partition/:style/:basename.:extension",
-  :default_url  => 'application/schoolsys_logo.jpg',
-  :default_path  => ':rails_root/public/images/application/schoolsys_logo.jpg'
+  :default_url  => 'application/schoolsys_logo.png',
+  :default_path  => ':rails_root/public/images/application/schoolsys_logo.png'
 
   VALID_IMAGE_TYPES = ['image/gif', 'image/png','image/jpeg', 'image/jpg']
 
