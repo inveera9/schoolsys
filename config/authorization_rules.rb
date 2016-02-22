@@ -1880,7 +1880,8 @@ authorization do
       :income_list_pdf,
       :expense_list_pdf,
       :asset_pdf,
-      :liability_pdf
+      :liability_pdf,
+      :delete_fee_collection_particular
 
     ]
         

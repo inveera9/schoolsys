@@ -1758,7 +1758,21 @@ class FinanceController < ApplicationController
     @fee_particulars = @fee_collection.fees_particulars(@student)
   end
   
-
+  def delete_fee_collection_particular
+    @fee_collection_particular = FeeCollectionParticular.find(params[:id])
+    deleted_amount = @fee_collection_particular.amount.to_f
+    @student = Student.find(params[:student_id])
+    @date = @fee_collection = @fee_collection_particular.finance_fee_collection
+    @financefee = @date.fee_transactions(@student.id)
+    @finance_fransaction = FinanceTransaction.find(:all,:conditions=>"FIND_IN_SET(id,\"#{@financefee.transaction_id}\")", :order=>"created_at ASC").first
+    if @fee_collection_particular.destroy
+      @finance_fransaction.amount -= deleted_amount
+      @finance_fransaction.save
+    end
+    if request.xhr?
+      render :json=> {:amount=> @finance_fransaction.amount.to_f}
+    end
+  end
   #fees defaulters-----------------------
 
   def fees_defaulters

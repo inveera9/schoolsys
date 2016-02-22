@@ -43,7 +43,7 @@
 <% form_remote_for :fees, :url => {:action => 'fees_submission_save', :student => @student.id,:date => @date.id, :fine=>@fine} do |form| %>
 
   <% unless @fee_particulars.nil? %>
-    <table id="listing" align="center" width="100%" cellpadding="1" cellspacing="1">
+    <table id="listing" class="finance-table" align="center" width="100%" cellpadding="1" cellspacing="1">
       <tr class="tr-head">
         <td><%= t('sl_no') %></td>
         <td><%= t('particulars') %></td>
@@ -55,7 +55,8 @@
         <tr class="tr-<%= cycle("odd","even") %>">
           <td class="col-1"><%= i +=1 %></td>
           <td class="col-2"><%= fee.name %></td>
-          <td class="col-6"><%= fee.amount %></td>
+          <td class="col-6"><%= fee.amount %> 
+            <a href="javascript:void(0)" class="delete_fee" fee-id="<%= fee.id %>" student-id="<%= @student.id %>" >X</a></td>
         </tr>
         <% total_fees += fee.amount %>
       <% end %>
@@ -155,7 +156,7 @@
           <tr class="tr-<%= cycle("odd","even") %>">
             <td class="col-1"><%= i+= 1 %></td>
             <td class="col-2"><%= t('partial_payment_on') %> <%= p.transaction_date %></td>
-            <td class="col-6"><%= p.amount.to_f %></td>
+            <td class="col-6 payment-done"><%= p.amount.to_f %></td>
           </tr>
         <% end %>
         <% total_fees -= paid %>
@@ -203,3 +204,26 @@
   </table>
 <% end %>
 
+<script>
+  jQuery(document).ready(function(){
+    jQuery('.delete_fee').click(function(){
+      var that = jQuery(this);
+      var id = jQuery(this).attr('fee-id');
+      var student_id = jQuery(this).attr('student-id');
+      if (confirm("Are you sure? You want to delete this fee.")) {
+        jQuery.ajax({
+          url: '/finance/delete_fee_collection_particular',
+          type: 'POST',
+          data: {id: id, student_id: student_id},
+          success: function(data){
+            that.parent().parent().remove();
+            jQuery('.payment-done').text(data.amount + ".0");
+          },
+          error :function(){
+            alert('Error: Unable to delete fee.')
+          }
+        });
+      }
+    });
+  });
+</script>

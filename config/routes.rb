@@ -65,5 +65,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/:action' 
   map.connect ':controller/:action/:id/:id2'
   map.connect ':controller/:action/:id.:format'
+  map.delete_fee_collection_particular 'finance/delete_fee_collection_particular', :controller => 'finance' ,:action=>'delete_fee_collection_particular'
 
 end

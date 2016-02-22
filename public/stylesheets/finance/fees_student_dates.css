@@ -239,6 +239,15 @@ table#listing td a {
     padding: 7px 10px;
     text-decoration: none;
 }
+table#listing td a.delete_fee{
+  margin-bottom: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-left:  10px !important;
+  padding: 2px 6px !important;
+  background: #bb0000 !important;
+  font-size: 12px !important;
+}
 table#listing td a:hover{
     background:  #373B3F;
     color: #fff;
