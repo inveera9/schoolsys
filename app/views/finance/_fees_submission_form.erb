@@ -43,7 +43,7 @@
 <% form_remote_for :fees, :url => {:action => 'fees_submission_save', :student => @student.id,:date => @date.id, :fine=>@fine} do |form| %>
 
   <% unless @fee_particulars.nil? %>
-    <table id="listing" class="finance-table" align="center" width="100%" cellpadding="1" cellspacing="1">
+    <table id="listing" class="finance-table updated-finance-table" align="center" width="100%" cellpadding="1" cellspacing="1">
       <tr class="tr-head">
         <td><%= t('sl_no') %></td>
         <td><%= t('particulars') %></td>
@@ -54,8 +54,8 @@
       <% @fee_particulars.each do |fee| %>
         <tr class="tr-<%= cycle("odd","even") %>">
           <td class="col-1"><%= i +=1 %></td>
-          <td class="col-2"><%= fee.name %></td>
-          <td class="col-6"><%= fee.amount %> 
+          <td class="col-4"><%= fee.name %></td>
+          <td class="col-3"><%= fee.amount %> 
             <a href="javascript:void(0)" class="delete_fee" fee-id="<%= fee.id %>" student-id="<%= @student.id %>" >X</a></td>
         </tr>
         <% total_fees += fee.amount %>
@@ -156,7 +156,7 @@
           <tr class="tr-<%= cycle("odd","even") %>">
             <td class="col-1"><%= i+= 1 %></td>
             <td class="col-2"><%= t('partial_payment_on') %> <%= p.transaction_date %></td>
-            <td class="col-6 payment-done"><%= p.amount.to_f %></td>
+            <td class="col-6 payment-done" id="trans-id-<%= p.id %>"><%= p.amount.to_f %></td>
           </tr>
         <% end %>
         <% total_fees -= paid %>
@@ -192,6 +192,9 @@
         </td>
       </tr>
       <tr>
+        <td><br/>
+          <div class="linker"><%= link_to_remote "#{t('add_particular')}", :url => { :action => 'add_student_particulars_new',:id => @date.id, :student_id=> @student.id} %></div>
+        </td>
         <td colspan="3">
     <%# unless @paid_fees.nil? or not total_fees.to_f == 0 %>
           <%= link_to "► #{t('print_receipt')}",
@@ -203,7 +206,7 @@
     <%end%>
   </table>
 <% end %>
-
+</div>
 <script>
   jQuery(document).ready(function(){
     jQuery('.delete_fee').click(function(){
@@ -216,8 +219,10 @@
           type: 'POST',
           data: {id: id, student_id: student_id},
           success: function(data){
+            data.finance_fransactions.each(function(ft){
+              jQuery("#trans-id-"+ft.finance_transaction.id).text(ft.finance_transaction.amount + ".0")
+            })
             that.parent().parent().remove();
-            jQuery('.payment-done').text(data.amount + ".0");
           },
           error :function(){
             alert('Error: Unable to delete fee.')

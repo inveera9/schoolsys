@@ -1,0 +1,2 @@
+page.replace_html 'fee_submission', :partial => 'fees_submission_form'
+page << "Modalbox.hide();"

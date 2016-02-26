@@ -248,6 +248,12 @@ table#listing td a.delete_fee{
   background: #bb0000 !important;
   font-size: 12px !important;
 }
+table#listing td .edit-student-fee a{
+  color: #000 !important;
+  background: none !important;
+  float: none !important;
+}
+
 table#listing td a:hover{
     background:  #373B3F;
     color: #fff;
@@ -303,4 +309,7 @@ table#listing td.col-6 {
 .val span{
     margin-right:12px;
     color: black;
+}
+.edit-student-fee a{
+  margin-left: 60px !important;
 }
